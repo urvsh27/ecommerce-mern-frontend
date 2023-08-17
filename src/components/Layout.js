@@ -13,7 +13,7 @@ const Layout = ({ children, title, description, keywords }) => {
         <meta name="keywords" content={keywords} />
       </Helmet>
       <Header />
-      <main style={{ minHeight: '80vh' }}>{children}</main>
+      <main className="main-area">{children}</main>
       <Footer />
     </div>
   );

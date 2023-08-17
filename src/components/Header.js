@@ -1,9 +1,10 @@
 import React from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/Auth";
 
 const Header = () => {
   const [auth,setAuth] = useAuth();
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     setAuth({
@@ -12,10 +13,11 @@ const Header = () => {
       token : '' 
     });
     localStorage.removeItem('auth');
+    navigate('/login');
   };
   return (
     <>
-      <nav className="navbar navbar-expand-lg bg-body-tertiary">
+      <nav className="navbar navbar-expand-lg">
         <div className="container-fluid">
           <button
             className="navbar-toggler"
@@ -41,6 +43,11 @@ const Header = () => {
               <li className="nav-item">
                 <NavLink to="/category" className="nav-link ">
                   Category
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink to="/dashboard" className="nav-link ">
+                  Dashboard
                 </NavLink>
               </li>
               {!auth.userDetails ? (<>

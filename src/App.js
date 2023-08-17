@@ -6,6 +6,8 @@ import Policy from './pages/Policy';
 import PageNotFound from './pages/PageNotFound';
 import Register from './pages/auth/Register';
 import Login from './pages/auth/Login';
+import Dashboard from './pages/user/Dashboard';
+import PrivateRoutes from './components/Routes/PrivateRoutes';
 
 function App() {
   return (
@@ -18,6 +20,11 @@ function App() {
         <Route path="*" element={<PageNotFound/>} />
         <Route path="/register" element={<Register/>}/>
         <Route path="/login" element={<Login/>}/>
+        {/* Private routes */}
+        <Route path="/dashboard" element={<PrivateRoutes/>}>
+        <Route path="" element={<Dashboard/>}/> 
+        </Route> 
+        {/* Private routes */}
       </Routes>
     </> 
   );

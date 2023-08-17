@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Layout from '../../components/Layout';
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/Auth';
 import BarLoader  from "react-spinners/BarLoader";
 import { NavLink } from 'react-router-dom';
@@ -18,6 +18,7 @@ const Login = () => {
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+  const location = useLocation();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -28,17 +29,17 @@ const Login = () => {
       });
       if (loginResponse && loginResponse.data.status === '1') {
         toast.success(loginResponse.data.message);
-        setAuth({
-          ...auth,
-          userDetails: loginResponse.data.data.userDetails,
-          token: loginResponse.data.data.accessToken,
-        })
-        localStorage.setItem('auth', JSON.stringify(loginResponse.data.data, null ,4));
         setTimeout(() => {
           setLoader(true);
+          setAuth({
+            ...auth,
+            userDetails: loginResponse.data.data.userDetails,
+            token: loginResponse.data.data.accessToken,
+          })
+          localStorage.setItem('auth', JSON.stringify(loginResponse.data.data, null ,4));
         }, 2000);
         setTimeout(() => {
-          navigate('/');
+          navigate(location.state || '/');
         }, 4000);
       }
     } catch (error) {
@@ -57,11 +58,14 @@ const Login = () => {
           <Toaster />
           {loader &&  
           <>
-          <div>
+          <div
+            className="d-flex justify-content-center align-items-center"
+            style={{ height: '100vh' }}
+          >
           <center  className="mb-3">
           <BarLoader height={4} width={200}/>
+          <p className="page-text">Redirecting...</p>
           </center>
-          <p className="page-text">Redirecting to the Home page</p>
           </div>
           </>}
         </div>
